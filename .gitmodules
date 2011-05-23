@@ -1,0 +1,3 @@
+[submodule "modules/Squeenote"]
+	path = modules/Squeenote
+	url = https://github.com/bradleywright/Squeenote
