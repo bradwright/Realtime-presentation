@@ -3,7 +3,43 @@
     <head>
         <meta charset="utf-8">
         <title>Programming the real time web</title>
+  <!-- Apple mobile device handling -->
+  <meta name="viewport" content="user-scalable=no, width=device-width">
+
+  <!-- Common dependencies -->
+  <script type="text/javascript" src="/modules/Squeenote/public/common/js/jquery-1.4.2.min.js"></script>
+  <script type="text/javascript" src="/modules/Squeenote/public/common/js/jquery-ui-1.8.2.custom.min.js"></script>
+  <script type="text/javascript" src="/modules/Squeenote/public/common/js/socket.io.js"></script>
+  <!-- Squeenote core -->
+  <script type="text/javascript" src="/modules/Squeenote/public/common/js/squeenote.device.js"></script>
+  <script type="text/javascript" src="/modules/Squeenote/public/common/js/squeenote.presentation.js"></script>
+  <script type="text/javascript" src="/modules/Squeenote/public/common/js/squeenote.ui.js"></script>
+  <link rel="stylesheet" href="/modules/Squeenote/public/common/css/controls.css" type="text/css" media="screen" title="no title" charset="utf-8">
+  <!-- Boot Squeenote -->
+  <script type="text/javascript">
+    $(document).ready(function() {
+      squeenote.Device = new squeenote.Device();
+      squeenote.Presentation = new squeenote.Presentation();
+    })
+    $(document).bind("presentationLoaded.squeenote", function(event, presentation) {
+      squeenote.UI = new squeenote.UI(presentation);
+    });
+  </script>
+
+  <!-- Theme files -->
+  <script type="text/javascript" src="/modules/Squeenote/public/squeenote-default/theme.js"></script>
+  <link rel="stylesheet" href="/modules/Squeenote/public/squeenote-default/theme.css" type="text/css" media="screen" title="no title" charset="utf-8">
+  <link media="only screen and (min-device-width: 768px) and (max-device-width: 1024px)"
+        href="/modules/Squeenote/public/squeenote-default/theme.ext.ipad.css" type="text/css" rel="stylesheet">
+  <link media="only screen and (max-device-width: 480px)"
+        href="/modules/Squeenote/public/squeenote-default/theme.ext.iphone.css" type="text/css" rel="stylesheet" />
     </head>
     <body>
+        <ol>
+            <li>
+                <h1>Programming the real time web</h1>
+                <h2>by <a href="http://intranation.com/">Bradley Wright</a></h2>
+            </li>
+        </ol>
     </body>
 </html>

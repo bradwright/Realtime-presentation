@@ -8,6 +8,7 @@ var sys = require('sys'),
 var presentationPath = "presentation.html";
 var presenterPassword = "crc";
 var port = 8080;
+var staticPath = '/modules/Squeenote/public';
 
 // process command line options
 process.argv.forEach(function(val, index, array) {
@@ -31,4 +32,4 @@ process.argv.forEach(function(val, index, array) {
     }
 });
 
-squeenote.listen(presentationPath, presenterPassword, port);
+squeenote.listen(presentationPath, presenterPassword, port, staticPath);
