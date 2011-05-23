@@ -13,6 +13,10 @@ var port = 8080;
 process.argv.forEach(function(val, index, array) {
     switch (index) {
         case 2:
+            if (val == 'help' || val == '?') {
+                console.log('Usage: node presentation.js [file] [password] [port]');
+                process.exit();
+            }
             presentationPath = val;
             break;
         case 3:
