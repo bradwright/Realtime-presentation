@@ -79,6 +79,53 @@
             </li>
             <li>
                 <h2>How does it work?</h2>
+                <ul>
+                    <li>The old way</li>
+                    <li>The current standard</li>
+                    <li>The elephant in the room</li>
+                </ul>
+            </li>
+            <li>
+                <h3>The old way</h3>
+                <h4>Comet</h4>
+                <ul>
+                    <li>Otherwise known as the <a href="http://svn.cometd.com/trunk/bayeux/bayeux.html">Bayeux protocol</a></li>
+
+                    <li>Long polling with handshake and response verification attached</li>
+                    <li>Cross-domain using "callback polling" (JSONP)</li>
+                </ul>
+            </li>
+            <li>
+                <h3>The old way</h3>
+                <h4>Polling</h4>
+            </li>
+            <li>
+                <h3>The old way</h3>
+                <h4>Polling (via JSONP and Ajax)</h4>
+                <ul>
+                    <li><strong>Long-polling</strong> - Ajax request that waits for server to close connection:
+                        <pre>&lt;?php
+    // fake waiting for data
+    sleep(rand(2,10));
+    // send response
+    header('Content-type: application/json');
+    echo '{"data":"here","key":"value"}';
+?&gt;</pre></li>
+                    <li><strong>Long-polling via JSONP</strong> - Long-lived request wrapped in a callback function:
+                        <pre>callback({"data":"here","key":"value"});</pre></li>
+                </ul>
+            </li>
+            <li>
+                <h3>The old way</h3>
+                <h4>Dynamic script elements</h4>
+            </li>
+            <li>
+                <h3>The old way</h3>
+                <h4>Multipart responses</h4>
+            </li>
+            <li>
+                <h3>The old way</h3>
+                <h4>Forever iframes</h4>
             </li>
             <li>
                 <h2>Server architecture</h2>
