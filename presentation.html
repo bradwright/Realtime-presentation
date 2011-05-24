@@ -95,6 +95,10 @@
                 </ul>
             </li>
             <li>
+                <h2>Why would I want it?</h2>
+
+            </li>
+            <li>
                 <h2>How does it work?</h2>
                 <ul>
                     <li>The old way</li>
@@ -152,7 +156,65 @@ Host: mywebsite.com
                 <h4>Forever iframes</h4>
             </li>
             <li>
+                <h2>The current way</h2>
+            </li>
+            <li>
+                <h2>WebSockets</h2>
+                <pre>GET /demo HTTP/1.1
+Upgrade: WebSocket
+Connection: Upgrade
+Host: example.com
+Origin: http://example.com
+Sec-WebSocket-Key1: 4 @1  46546xW%0l 1 5
+Sec-WebSocket-Key2: 12998 5 Y3 1  .P00
+
+^n:ds[4U
+</pre>
+            </li>
+            <li>
+                <h2>WebSockets security issues</h2>
+            </li>
+            <li>
+                <h2>Future of WebSockets</h2>
+            </li>>
+            <li>
                 <h2>Server architecture</h2>
+                <h3>Why long polling and Apache don't mix</h3>
+            </li>
+            <li>
+                <h2>Server architecture</h2>
+                <h3>Non-blocking servers</h3>
+                <ul>
+                    <li>High concurrency</li>
+                </ul>
+            </li>
+            <li>
+                <h3>Popular servers capable of this</h3>
+                <ul>
+                    <li>Apache foundation "cometd"</li>
+                    <li>Tornado</li>
+                    <li>eventlet</li>
+                    <li>Twist.d</li>
+                    <li>EventMachine</li>
+                    <li>node.js</li>
+                </ul>
+            </li>
+            <li>
+                <h2>Server architecture</h2>
+                <h3>Message/work queues</h3>
+            </li>
+            <li>
+                <h2>Scaling server architecture</h2>
+                <ul>
+                    <li>Stateless workers</li>
+                    <li>Scale horizontally</li>
+                </ul>
+                <ul>
+                    <li>Offline processing</li>
+                    <li>Bind message queues to each other</li>
+                    <li>Frontend acts as dumb router to browser</li>
+                    <li>Wire up exchanges dynamically in application layer</li>
+                </ul>
             </li>
             <li>
                 <h2>Asynchronous programming</h2>
