@@ -164,3 +164,25 @@ Also, as we're now moving into an age where user experience is at the forefront 
 - Can be helpful to have an off-page area which has commentary - an example: "The price for Google has moved 5% downwards in the last 2 hours". This would normally be clearly indicated by the graph, but there's currently no easy way of updating either ``longdesc`` or providing ``alt`` attribute text for complex interaction;
 
 __ http://www.w3.org/WAI/PF/aria-practices/#LiveRegions
+
+To summarise
+============
+
+- Lots of new programming techniques on the server side here - the client continues as normal, assuming you have an abstraction for the various cross-browser things you have to do
+- Can work cross browser if you're willing to do the work or use one of the solutions presented earlier
+- Requires some thought when building our your own stack
+
+  - How will you communicate that new things need to be seen?
+  - What will you use on the server side?
+  - Do you really need push, or would polling be appropriate?
+
+- Worth looking into if your app or business requires it.
+
+  - Smarkets customers asking for "refresh button", because our competitors do that
+  - Adds real feeling of dynamism and speed to sites with frequent updates
+  - Allows users to stay engaged and up to date without even focusing the tab
+
+Questions?
+==========
+
+Gavin told me to expect questions. Let's have them!
