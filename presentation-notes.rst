@@ -16,9 +16,11 @@ A short demo
 ============
 
 - This is where we test out Gavin's claim that the wifi here would be
-- Visit dibi2011.intranation.com
+- Visit `dibi2011.intranation.com`__
 - This entire presentation *is* a real-time web application
-- The slides on your screen sho
+- The slides on your screen should keep up with mine as I advance
+
+__ http://dibi2011.intranation.com/
 
 What does "real time web programming" mean?
 ===========================================
