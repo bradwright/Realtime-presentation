@@ -80,7 +80,7 @@ Long-polling
 
   - Still not entirely efficient: when you return a response the client has to create and connect with a new request
 
-- Best practice is to batch data for a short time so that you maximise efficiency in the connection window
+- Best practice is to batch data for a short time so that you maximise efficiency in the connection window (which requires a bit of a dirty server side logic fork)
 
 Comet
 =====
@@ -88,7 +88,20 @@ Comet
 - Comet is more formally known as "The Bayeux protocol"
 - Combination of long-polling and JSONP polling on the server - code has already been written for you
 - Added handshake for some client/server verification
-- Slightly complex, probably requires a custom Java server (and thus lots of XML)
+- Slightly complex, requires a custom Java server (and thus lots of XML)
+
+Dynamic script elements
+=======================
+
+- Fully cross domain
+- Widely supported
+- Lacks timeout features, as browsers never report that a script element didn't load
+- Quasi-evented by way of JSONP callback firing when it returns
+- To work around unknown timeouts:
+
+  - Generate a sequence number, send with request
+  - Always return after 60 seconds whether you have data or not
+  - If returned sequence number of request is different from current on client, reset state and begin again (assuming you're only sending diffs)
 
 Forever iframe
 ==============
