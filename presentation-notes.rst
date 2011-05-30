@@ -43,6 +43,7 @@ How does it work?
   - Some of these techniques are as old as Ajax itself, so circa
   - We detail the various hacks and ways that people have previously done push updates (why I use scare quotes around push will become clear)
   - We examine the pitfalls and benefits of each way
+  - All this is really to impress on you that these techniques are hacky and experimental, so caution should be used when building The Future™
 
 - The current (or upcoming, given it's all about as current as HTML 5 or CSS 3) standard:
 
