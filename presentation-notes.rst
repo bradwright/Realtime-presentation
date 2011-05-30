@@ -167,6 +167,11 @@ WebSockets
 - Handshake for authentication (as it opens a socket)
 - http://www.whatwg.org/specs/web-socket-protocol/
 
+Server sent events
+==================
+
+- Supported in alpha versions of Firefox: http://hacks.mozilla.org/2011/05/aurora-6-is-here/
+
 Non-blocking libraries
 ======================
 
