@@ -137,3 +137,30 @@ Servers/libraries
 - Tornado is the non-blocking Python web server used by Friendfeed. It impements non-blocking IO using callbacks. It has a socket.io implementation called Tornadio
 - Eventlet is Linden Labs's (of Second Life fame) non-blocking evented Python framework. It uses a coroutine style. It has a WebSockets module for serving WebSockets;
 - Twisted is a very complex networking and event library written in Python. I don't really understand it;
+
+Asynchronous programming
+========================
+
+- If you're working with Ajax or custom events in the browser, you're already doing it
+- On the server, important not to block current request - this way it can go on to handle other requests while something churns away on the data required
+- Typically uses either callbacks or coroutines (callbacks are the Javascript way you're probably familiar with)
+
+Accessibility
+=============
+
+I have included a few points on accessibility as a way of closing the loop - when I started in web development it was all about "doing it the right way". We're now in a world where it's considered cool to have tech demos which only run in Chrome, or to have entire website and URL structures based on just Javascript (hi Twitter!). As I still believe in doing things the right way, all potential users have to be considered.
+
+Also, as we're now moving into an age where user experience is at the forefront of designers' and developers' minds, it's important to remember that experience should be optimised for every user possible.
+
+- This is still a nascent part of the stack
+- `ARIA live regions`__ can be used to specify how frequently, and how urgent, types of update are. It also controls if they need to know about the whole area, or specific parts;
+
+  - ``aria-live`` attribute defines "polite" or "urgent" modes, which determine how insistent or quiet content updates are. The order these updates are read out is also determined by the value of this attribute. For example, updates to a public chatroom could be "polite", whereas private messages would be "urgent".
+  - Updates sent to accessibility layers can be disabled while content loads with ``aria-busy``. Use this to block updates to a pane until all messages are processed and loaded. Note this can also be used for "loading" icons etc. while forms are being sent to the server;
+  - ``aria-relevant`` can be used to indicate whether new child elements are important or not, and whether changes to text within the region are important
+
+- ARIA roles are also important: a role of ``alert`` when they receive a new message or similar is appropriate, as this indicates that something has happened the user needs to know about. ``alertdialog`` can be used if the user needs to focus on the dialogue in question and action it (for example: a failed modal login dialogue)
+- Be careful updating forms in-page because they can cause reloads in certain screenreaders
+- Can be helpful to have an off-page area which has commentary - an example: "The price for Google has moved 5% downwards in the last 2 hours". This would normally be clearly indicated by the graph, but there's currently no easy way of updating either ``longdesc`` or providing ``alt`` attribute text for complex interaction;
+
+__ http://www.w3.org/WAI/PF/aria-practices/#LiveRegions
