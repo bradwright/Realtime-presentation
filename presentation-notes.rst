@@ -145,6 +145,15 @@ Asynchronous programming
 - On the server, important not to block current request - this way it can go on to handle other requests while something churns away on the data required
 - Typically uses either callbacks or coroutines (callbacks are the Javascript way you're probably familiar with)
 
+What can I use off the shelf?
+=============================
+
+At this point you might be terrified of all the details, but you have a few easy options for rolling out your own solutions.
+
+- Node.js has the excellent socket.io client and server libraries, which wrap all the techniques described above for you in a convenient abstraction. I recommend the client library at the very least, as it does all the heavy lifting for you. Incidentally this presentation is running on node.js and uses socket.io to serve the real-time connection;
+- A commercial service like my office mates Pusher, who provide a RESTful API to a WebSockets abstraction (with Flash fallback). This allows any service who is constrained to what they can install on their server to use real-time, albeit with the slight delay introduced by sending messages out to another service and then back to the browser.
+- Polling is the final fallback. This is the least efficient and least performant variety of the techniques presented here, but it requires no special server or architecture and will work on top of whatever Ajax abstraction you're using.
+
 Accessibility
 =============
 
