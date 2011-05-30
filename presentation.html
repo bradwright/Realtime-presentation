@@ -9,7 +9,11 @@
   <!-- Common dependencies -->
   <script type="text/javascript" src="/modules/Squeenote/public/common/js/jquery-1.4.2.min.js"></script>
   <script type="text/javascript" src="/modules/Squeenote/public/common/js/jquery-ui-1.8.2.custom.min.js"></script>
-  <script type="text/javascript" src="/modules/Squeenote/public/common/js/socket.io.js"></script>
+  <!-- socket.io -->
+  <script type="text/javascript">
+    WEB_SOCKET_SWF_LOCATION = "/socket.io/WebSocketMain.swf";
+  </script>
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
   <!-- Squeenote core -->
   <script type="text/javascript" src="/modules/Squeenote/public/common/js/squeenote.device.js"></script>
   <script type="text/javascript" src="/modules/Squeenote/public/common/js/squeenote.presentation.js"></script>
@@ -17,7 +21,6 @@
   <link rel="stylesheet" href="/modules/Squeenote/public/common/css/controls.css" type="text/css" media="screen" title="no title" charset="utf-8">
   <!-- Boot Squeenote -->
   <script type="text/javascript">
-    WEB_SOCKET_SWF_LOCATION = "/socket.io/WebSocketMain.swf";
     $(document).ready(function() {
       squeenote.Device = new squeenote.Device();
       squeenote.Presentation = new squeenote.Presentation();
