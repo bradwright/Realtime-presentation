@@ -1,7 +1,7 @@
 Who am I?
 =========
 
-- Australian, where I worked for an agency making websites for many reputable brands
+- Australian, where I worked for an agency making websites for many reputable brands. In case you're wanting to ask questions after the conference, I, like all Australians, don't drink Fosters.
 - Head of Web Development at betting exchange Smarkets, a London-based startup
 - Web developer for 10 years, including two years at Yahoo! as a senior developer
 - My background in this specific topic is that we've been doing various forms of real-time odds and sports data for a few years now. This talk is based on all the things I've learned, and also because there doesn't seem to be any definitive resource with this information
