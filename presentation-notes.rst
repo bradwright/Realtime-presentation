@@ -155,7 +155,7 @@ Forever iframe
 - Transferred via dynamic ``iframe``
 - Uses ``connection: keep-alive`` and ``Transfer-encoding: chunked`` to serve chunks of content into the ``iframe``
 - ``iframe`` inserts dynamic ``script`` elements that invoke a function in the parent window (like JSONP)
-- Constantly loading in IE, which is a bad user experience, unless you use an (surprise!) ActiveXControl called ``htmlfile``;
+- Constantly loading in most browsers, which is a bad user experience: unless you're on IE, then you use an (surprise!) ActiveXControl called ``htmlfile``;
 - Google Talk team discovered this, `according to Dojo's Alex Russell`__
 
 __ http://infrequently.org/2006/02/what-else-is-burried-down-in-the-depths-of-googles-amazing-javascript/
@@ -165,6 +165,7 @@ WebSockets
 
 - HTTP 1.1 headers
 - Handshake for authentication (as it opens a socket)
+- http://www.whatwg.org/specs/web-socket-protocol/
 
 Non-blocking libraries
 ======================
