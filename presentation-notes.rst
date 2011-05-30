@@ -15,10 +15,10 @@ Overview
 A short demo
 ============
 
-- This is where we test out Gavin's claim that the wifi here would be
+- This is where we test out Gavin's claim that "(t)he Sage Gateshead probably has the most rock-solid wifi/public internet connection in the entirety of the North East of England";
 - Visit `dibi2011.intranation.com`__
 - This entire presentation *is* a real-time web application
-- The slides on your screen should keep up with mine as I advance
+- The slides on your screen should keep up with mine as I advance (unless I broke it)
 
 __ http://dibi2011.intranation.com/
 
