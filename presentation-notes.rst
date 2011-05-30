@@ -40,6 +40,7 @@ How does it work?
 - This part of the talk is broken down into 3 sections:
 - The old way:
 
+  - Some of these techniques are as old as Ajax itself, so circa
   - We detail the various hacks and ways that people have previously done push updates (why I use scare quotes around push will become clear)
   - We examine the pitfalls and benefits of each way
 
@@ -55,28 +56,36 @@ How does it work?
 Polling
 =======
 
-- Works with regular Ajax and setTimeout
+- Works with regular Ajax and ``window.setTimeout``
 - Doesn't require a special server
 - Problems:
+
   - Excessive network latency from many HTTP requests
-  - Data might not have changed between polls
-- Best practice is to use If-Modified-Since and 304 responses to cut down on browser/network payload
+  - Makes the server and client do work for potentially no reason - Data might not have changed between polls
+
+- If you must do long polling (legacy server architecture, shared hosting), Best practice is to use ``If-Modified-Since`` on the client and return 304 responses to cut down on browser/network payload
 
 Long-polling
 ============
 
 - Basically server holds connection open until it has something to send
-- Now we're at a new level of complexity
+- Reduces latency and "has anything changed?" issues introduced by polling
+- However, it requires a custom server and application stack
 
-  - Need special kind of web server to handle this - Apache (or another standard prefork server) will just run out of workers
-  - Need to queue messages while HTTP requests are being turned around
-  - Still not entirely efficient
+  - Apache (or another standard prefork server) will just run out of workers
+
+    - Imagine you spawn 60 prefork workers
+    - After 60 Ajax long-polling connections your server can no longer serve requests, as they're all being held
+
+  - Still not entirely efficient: when you return a response the client has to create and connect with a new request
+
+- Best practice is to batch data for a short time so that you maximise efficiency in the connection window
 
 Comet
 =====
 
 - Comet is more formally known as "The Bayeux protocol"
-- Combination of long-polling and JSONP polling
+- Combination of long-polling and JSONP polling on the server - code has already been written for you
 - Added handshake for some client/server verification
 - Slightly complex, probably requires a custom Java server (and thus lots of XML)
 
@@ -96,8 +105,6 @@ WebSockets
 
 - HTTP 1.1 headers
 - Handshake for authentication (as it opens a socket)
-
-
 
 Non-blocking libraries
 ======================
