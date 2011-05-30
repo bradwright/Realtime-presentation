@@ -159,6 +159,11 @@ Host: mywebsite.com
             <li>
                 <h3>The old way</h3>
                 <h4>Forever iframes</h4>
+                <ul>
+                    <li>An <code>iframe</code> served via <code>keep-alive</code> and chunked encoding</li>
+                    <li>Each chunk spits out a dynamic <code>script</code> element</li>
+                    <li>Browser always appears to be loading (spinning) in IE, unless you use a hack</li>
+                </ul>
             </li>
             <li>
                 <h2>The current way</h2>
