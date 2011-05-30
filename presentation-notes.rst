@@ -34,6 +34,48 @@ Non-web examples
 Who really needs it?
 ====================
 
+Why would I want it?
+====================
+
+In honesty, not all applications really need push updates. Here are a few ideas I came up with (I accept equity as thanks if any of these turn into successful businesses after this talk):
+
+- Ticketmaster
+
+  - Serve basic pages from high speed web servers
+  - Serve queue/availability information from cache initially, then update live with WebSockers
+  - Storing queue information in a cookie or session means even over refreshes the user stays at their point in the queue
+  - Helps alleviate thundering herd issues with people reloading constantly, as Nginx or Varnish can serve thousands of requests a second from cache (maybe the DIBI site could do with this architecture next year?)
+
+- Live chat and social networks
+
+  - Presence indicators (you have 5 friends online)
+  - Live chat
+  - Live messaging ("so and so sent you a private message")
+  - Incidentally, new Twitter uses regular polling with a 500ms timeout, which is disappointing given their real-time streaming API
+
+- Financial applications
+
+  - To the second quotes and prices are important
+  - Real-time notification of swings or news events
+  - Chat with other traders (think Bloomberg terminals)
+  - Scales to mobile devices since it's just a web app
+
+- Live sports or entertainment
+
+  - Live scores, commentary, statistics
+  - Live voting (like Eurovision)
+  - Chat with other fans
+
+- Online gaming
+
+  - Pretty obvious, this one!
+
+- Collaboration and document sites
+
+  - Google Docs uses real-time push communication to send keystroke and other information to all clients
+
+Smarkets, my employer, uses real-time updates for odds/quantity, sports data, and real-time chat with other fans.
+
 How does it work?
 =================
 
