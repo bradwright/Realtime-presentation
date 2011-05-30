@@ -145,6 +145,10 @@ Dynamic script elements
   - Always return after 60 seconds whether you have data or not
   - If returned sequence number of request is different from current on client, reset state and begin again (assuming you're only sending diffs)
 
+- Reference__
+
+__ http://www.olivepeak.com/blog/posts/read/implementing-script-tag-long-polling-for-comet-applications
+
 Forever iframe
 ==============
 
