@@ -163,15 +163,24 @@ __ http://infrequently.org/2006/02/what-else-is-burried-down-in-the-depths-of-go
 WebSockets
 ==========
 
-- HTTP 1.1 headers
-- Handshake for authentication (as it opens a socket)
+- I've been leading up to this all along - it's the one protocol to rule them all;
+- It's close enough to a proper socket - communication is incredibly rapid;
+- Doesn't require many HTTP connections - just a single mostly latent socket to each client;
+- As most things in HTML5, it has well defined DOM and error handling characteristics (as the HTML5 specs are mostly based on what authors are doing in the wild and need to know to write services and browsers);
+- Uses HTTP 1.1 Upgrade header;
+- Looks like HTTP, but isn't;
+- Bidirectional communication with the server - clients can send messages to the server via the socket;
+- Requires handshake for authentication (as it opens a socket);
 - `Current spec`__
+- Great `Stack Overflow`__ question on all things WebSockets;
 
 __ http://dev.w3.org/html5/websockets/
+__ http://stackoverflow.com/questions/4262543/what-are-good-resources-for-learning-html-5-websockets
 
 WebSockets security issues
 ==========================
 
+- There is one problem with the widely existing implementation: it has a well known security issue;
 - `Mozilla first to disable WebSockets`__ back in December 2010;
 - `Actual issue is to do with the way transparent proxies can operate`__ as a man in the middle;
 
@@ -189,6 +198,7 @@ __ http://www.adambarth.com/experimental/websocket.pdf
 Future of WebSockets
 ====================
 
+- As mentioned, the current spec is free of the proxy security issues mentioned above;
 - The new version of Chromium, the open source browser that Chrome is built on, `supports the latest, secure version of the WebSockets protocol`__
 - `A ticket was recently closed in Webkit`__ that adds support for the new protocol too;
 - The Aurora alpha build of Firefox has `just added support for WebSockets`__ under a different DOM namespace
@@ -203,11 +213,14 @@ Server sent events
 ==================
 
 - The other spec is `server sent events`__;
+- Designed to replace foreveriframe and XHR multipart with server push;
+- Not bidirectional like WebSockets - only server to client;
 - Similar to XHR multipart but with less cruft and framing;
 - Requires the same server design as XHR multipart;
 - Only supported in IE10, Firefox 6;
 - Current Safari and Chrome support it;
 - By the the time it's mainstream Firefox will support WebSockets, leaving only IE to use this;
+- Additional specification work for notifying offline browsers to reconnect, and sequential/numbered messages to ensure application in correct order;
 
 __ http://dev.w3.org/html5/eventsource/
 
