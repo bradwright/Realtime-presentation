@@ -204,9 +204,28 @@ Sec-WebSocket-Key2: 12998 5 Y3 1  .P00
             </li>
             <li>
                 <h2>WebSockets security issues</h2>
+                <ul>
+                    <li>First discovered in a research paper</li>
+                    <li>Firefox dropped support</li>
+                    <li>New protocol fixes security issues with proxies
+                </ul>
             </li>
             <li>
                 <h2>Future of WebSockets</h2>
+                <ul>
+                    <li>Latest Chromium supports secure version</li>
+                    <li>Latest Webkit will very soon</li>
+                    <li>Alpha versions of Firefox have just added support</li>
+                    <li>Which leaves IE and Opera...</li>
+                </ul>
+            </li>
+            <li>
+                <h2>Server sent events</h2>
+                <p>Long polling/connection with defined framing boundaries</p>
+                <pre>data: This is the first message.
+
+data: This is the second message, it
+data: has two lines.</pre>
             </li>
             <li>
                 <h2>Server architecture</h2>
