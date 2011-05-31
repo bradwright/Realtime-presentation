@@ -165,21 +165,75 @@ WebSockets
 
 - HTTP 1.1 headers
 - Handshake for authentication (as it opens a socket)
-- http://www.whatwg.org/specs/web-socket-protocol/
+- `Current spec`__
+
+__ http://dev.w3.org/html5/websockets/
+
+WebSockets security issues
+==========================
+
+- `Mozilla first to disable WebSockets`__ back in December 2010;
+- `Actual issue is to do with the way transparent proxies can operate`__ as a man in the middle;
+
+  - Two endpoints could communicate even if the proxy between didn't understand the protocol - the endpoints didn't reject the requests
+  - Allows for caches to be poisoned as communication after first connection isn't verified
+
+- `The paper which found the original attack`__ is in the long form of this talk;
+- New version uses trivial encoding so it's obviously WebSockets communication (rather than just a broken looking HTTP 1.1 request)
+- Encoding means proxies in between will let the traffic through. This has a double benefit of old broken proxies leaving your WebSockets unmolested;
+
+__ http://hacks.mozilla.org/2010/12/websockets-disabled-in-firefox-4/
+__ http://blog.pusherapp.com/2010/12/9/it-s-not-websockets-it-s-your-broken-proxy
+__ http://www.adambarth.com/experimental/websocket.pdf
+
+Future of WebSockets
+====================
+
+- The new version of Chromium, the open source browser that Chrome is built on, `supports the latest, secure version of the WebSockets protocol`__
+- `A ticket was recently closed in Webkit`__ that adds support for the new protocol too;
+- The Aurora alpha build of Firefox has `just added support for WebSockets`__ under a different DOM namespace
+- IE will generally support Flash, which is great, and no one actually uses Opera, right?
+- WebSockets *are* the best solution to having a real-time web application;
+
+__ http://code.google.com/p/chromium/issues/detail?id=64470&q=websockets&sort=-modified&colspec=ID%20Stars%20Pri%20Area%20Feature%20Type%20Status%20Summary%20Modified%20Owner%20Mstone%20OS
+__ https://bugs.webkit.org/show_bug.cgi?id=50099
+__ http://hacks.mozilla.org/2011/05/aurora-6-is-here/
 
 Server sent events
 ==================
 
-- Supported in alpha versions of Firefox: http://hacks.mozilla.org/2011/05/aurora-6-is-here/
+- The other spec is `server sent events`__;
+- Similar to XHR multipart but with less cruft and framing;
+- Requires the same server design as XHR multipart;
+- Only supported in IE10, Firefox 6;
+- Current Safari and Chrome support it;
+- By the the time it's mainstream Firefox will support WebSockets, leaving only IE to use this;
 
-Non-blocking libraries
-======================
+__ http://dev.w3.org/html5/eventsource/
+
+Server architecture
+===================
+
+- As mentioned before, Apache will just use up all its workers doing long polling
+- Special servers required, that perform asynchronously;
+- You might also need a message queue or other delivery mechanism;
+- Allows for regular threaded server and app models to post messages to asynchronous APIs;
+
+  - Post database update, signal in model sends AMQP message notifying the exchange
+  - Exchange fans out to WebSockets server to notify all interested parties
+
+- I recommend RabbitMQ, as it performs and scales very well;
+- TODO: basic explanation of queues and exchanges;
+
+Non-blocking programming
+========================
 
 - Take incoming request, route complexity to another function, move onto next request
 - Requires different programming style, similar to custom events in Javascript - anything can fire or return at any time
-- Good overview of the issues faced: http://www.kegel.com/c10k.html
-- I'm no expert in this kind of programming, so I can't explain the issues in depth. Hence I make no judgement as to the quality of the following libraries:
+- `Good overview of the issues faced`__
+- I'm no expert in this kind of programming as far as low-level server interaction goes, so I can't explain the issues in depth. Hence I make no judgement as to the quality of the following libraries:
 
+__ http://www.kegel.com/c10k.html
 
 
 Servers/libraries
@@ -194,7 +248,11 @@ Asynchronous programming
 ========================
 
 - If you're working with Ajax or custom events in the browser, you're already doing it
-- On the server, important not to block current request - this way it can go on to handle other requests while something churns away on the data required
+- On the server, important not to block current request - this way it can go on to handle other requests while something churns away on the data required;
+- For any complex operation an asynchronous API will be wanted, as you don't want to block the client. Blocking can lead to sluggish frontends and excessive RAM usage;
+
+  - Asynchronous backends require a different programming paradigm - you need to program your Ajax and controllers to carry on until they receive a completion message;
+  - Basic flow is make operation -> API returns -> Ajax carries on spinning -> completion message is sent -> Ajax notifies user that operation is complete. The difference here is that once the API has returned it can serve the next request while the other user hangs out and waits. In traditional CRUD operations the next request would be blocked. If the Ajax is done right the user will never know it wasn't in a single thread;
 - Typically uses either callbacks or coroutines (callbacks are the Javascript way you're probably familiar with)
 
 What can I use off the shelf?
