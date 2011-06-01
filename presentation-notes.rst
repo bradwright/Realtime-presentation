@@ -123,6 +123,7 @@ Long-polling
   - Still not entirely efficient: when you return a response the client has to create and connect with a new request
 
 - Best practice is to batch data for a short time so that you maximise efficiency in the connection window (which requires a bit of a dirty server side logic fork)
+- Use keep-alive to play nicely with servers and proxies;
 
 Comet
 =====
@@ -167,9 +168,13 @@ WebSockets
 - It's close enough to a proper socket - communication is incredibly rapid;
 - Doesn't require many HTTP connections - just a single mostly latent socket to each client;
 - As most things in HTML5, it has well defined DOM and error handling characteristics (as the HTML5 specs are mostly based on what authors are doing in the wild and need to know to write services and browsers);
+- Bidirectional communication with the server - clients can send messages to the server via the socket;
 - Uses HTTP 1.1 Upgrade header;
 - Looks like HTTP, but isn't;
-- Bidirectional communication with the server - clients can send messages to the server via the socket;
+
+  - This point is important, as it means WebSockets doesn't play nicely with some proxies as things currently stand;
+  - The new spec helps with this by encrypting the traffic to not look like HTTP anymore;
+
 - Requires handshake for authentication (as it opens a socket);
 - `Current spec`__
 - Great `Stack Overflow`__ question on all things WebSockets;
