@@ -11,3 +11,7 @@ This is a presentation designed to be presented in real-time and followed along 
 __ http://angryamoeba.co.uk/
 __ https://github.com/danski/Squeenote
 __ http://nodejs.org/
+
+Full talk notes, with references and annotations, can be found `in the codebase`__.
+
+__ https://github.com/bradleywright/Realtime-presentation/blob/master/presentation-notes.rst
