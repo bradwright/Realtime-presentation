@@ -229,6 +229,16 @@ Server sent events
 
 __ http://dev.w3.org/html5/eventsource/
 
+WebRTC
+======
+
+- Google, in conjunction with Mozilla and Opera, just announced `WebRTC`__
+- Designed for in-browser real-time communication, potentially incorporating video and audio
+- Built on top of existing protocols, making server and client adoption more likely
+- Abstracts all other protocols to provide a consistent API for browser vendors and web-application authors
+
+__ https://sites.google.com/site/webrtc/
+
 Server architecture
 ===================
 
