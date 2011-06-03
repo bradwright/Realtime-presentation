@@ -242,26 +242,62 @@ __ https://sites.google.com/site/webrtc/
 Server architecture
 ===================
 
+- Real time web goes two ways: server and client side
+- Server side important to fulfil promise of client real time
+- Nginx is an event-loop driven web server - it has a stable and predictable RAM profile under load
+
+Apache and real time
+====================
+
+- I'm picking on Apache because it's the most popular web server on earth
 - As mentioned before, Apache will just use up all its workers doing long polling
+- PHP does have functions to access system level non-blocking stuff, but the only Google results on it are from 2006
+- Just to make it clear I'm not picking on PHP: Rails and Django, out of the box, are blocking;
+- Mitigation:
+
+  - You might also need a message queue or other delivery mechanism;
+  - Allows for regular threaded server and app models to post messages to asynchronous APIs;
+
+    - Post database update, signal in model sends AMQP message notifying the exchange
+    - Exchange fans out to WebSockets server to notify all interested parties
+    - Interface updates
+
+  - I recommend RabbitMQ, as it performs and scales very well;
+
+Non-blocking servers
+====================
+
 - Special servers required, that perform asynchronously;
-- You might also need a message queue or other delivery mechanism;
-- Allows for regular threaded server and app models to post messages to asynchronous APIs;
-
-  - Post database update, signal in model sends AMQP message notifying the exchange
-  - Exchange fans out to WebSockets server to notify all interested parties
-
-- I recommend RabbitMQ, as it performs and scales very well;
-- TODO: basic explanation of queues and exchanges;
-
-Non-blocking programming
-========================
-
+- Tornado is a quasi-famous example (open source Python web framework used by Friendfeed)
+- As I said, if you're writing custom events or Ajax on the front end, you're already doing callback style evented programming
+- Resource contention can still be an issue - if two asynchronous calls depend on the same resource, one of them can still block;
+- Debugging can also be a problem, as it's not always clear which coroutine or callback is causing the error (stack traces are mangled);
 - Take incoming request, route complexity to another function, move onto next request
 - Requires different programming style, similar to custom events in Javascript - anything can fire or return at any time
 - `Good overview of the issues faced`__
 - I'm no expert in this kind of programming as far as low-level server interaction goes, so I can't explain the issues in depth. Hence I make no judgement as to the quality of the following libraries:
 
 __ http://www.kegel.com/c10k.html
+
+An example from Smarkets
+========================
+
+- I say "future" because this is the API we're moving towards
+- We consider user experience and feel to be a core feature in the site, so we don't compromise on what the user experiences
+- Basic flow
+
+  - User pops "place bet" widget
+  - Fills in fields, clicks "submit"
+  - An Ajax ``POST`` fires off, and bet widget goes into "pending" (or spinning) state
+  - Django parses request for form errors and authentication, then submits to API
+  - API returns immediately with ``Ok``
+  - Django sends appropriate response to Javascript, which remains spinning (but we know the request at least passed form validation)
+  - API processes request asynchronously
+  - When request is good and order accepted, a message is sent on the queue to the WebSockets frontend
+  - Notification that order was accepted/rejected lands in browser, bet widget closes, new bet or error message displayed
+  - Round trip of about 100ms, transactional (in the API code), but can handle 1000s of concurrent requests from API clients as well as customers of the website
+
+- User never notices that it's asynchronous - to them it seems synchronous, which doesn't break their mental model of fill form, submit, response
 
 
 Servers/libraries
@@ -271,6 +307,29 @@ Servers/libraries
 - Tornado is the non-blocking Python web server used by Friendfeed. It impements non-blocking IO using callbacks. It has a socket.io implementation called Tornadio
 - Eventlet is Linden Labs's (of Second Life fame) non-blocking evented Python framework. It uses a coroutine style. It has a WebSockets module for serving WebSockets;
 - Twisted is a very complex networking and event library written in Python. I don't really understand it;
+
+Message queues
+==============
+
+- TODO
+
+Scaling
+=======
+
+- Offload complex processing to daemons
+- Web server needs to be stateless
+
+  - Build up session and state information on the server
+  - Pass dynamic exchange bindings to web server
+  - Web server just routes messages to client
+
+- Use message queues to pass data around so nothing blocks
+
+  - You can scale out by adding more web servers or more message queues
+  - If the data gets more complex you can optimise the daemons or add more
+
+- Let RabbitMQ do its thing and allow it to take the load
+- High CPU is fine (that's what it's there for), as long as it's not pegged
 
 Asynchronous programming
 ========================

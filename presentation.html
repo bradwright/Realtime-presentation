@@ -116,7 +116,7 @@
             <li>
                 <h2>How does it work?</h2>
                 <ul>
-                    <li>The old way - a caution about The Future™</li>
+                    <li>The old way - with a caution about The Future™</li>
                     <li>The current standard - and how it's changing</li>
                     <li>The elephant in the room</li>
                 </ul>
@@ -256,13 +256,36 @@ data: has two lines.</pre>
             </li>
             <li>
                 <h2>Server architecture</h2>
+                <ul>
+                    <li>The real time web is more than just the Javascript</li>
+                    <li>Server side is as important as client side</li>
+                    <li>Nginx is an example of an evented server</li>
+                    <li>Luckily, no hacks involved!</li>
+                </ul>
+            </li>
+            <li>
+                <h2>Server architecture</h2>
                 <h3>Why long polling and Apache don't mix</h3>
+                <ul>
+                    <li>Pre-forked/worker, and blocking</li>
+                    <li>PHP has a <code>select</code> function, but no one uses it</li>
+                    <li>Popular frameworks are blocking too</li>
+                </ul>
             </li>
             <li>
                 <h2>Server architecture</h2>
                 <h3>Non-blocking servers</h3>
                 <ul>
                     <li>High concurrency</li>
+                    <li>Difficult (different?) programming model</li>
+                    <li>Not a magic bullet</li>
+                </ul>
+            </li>
+            <li>
+                <h3>An example of this from the future of Smarkets</h3>
+                <ul>
+                    <li>User experience and performance key</li>
+                    <li>Mask asynchronous nature of API</li>
                 </ul>
             </li>
             <li>
@@ -279,6 +302,12 @@ data: has two lines.</pre>
             <li>
                 <h2>Server architecture</h2>
                 <h3>Message/work queues</h3>
+                <ul>
+                    <li>Fire and forget architecture</li>
+                    <li>Eventual delivery</li>
+                    <li>Can deliver to multiple listeners</li>
+                    <li>AMQP/Rabbit has clients for most major languages</li>
+                </ul>
             </li>
             <li>
                 <h2>Scaling server architecture</h2>
