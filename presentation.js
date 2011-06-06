@@ -8,7 +8,7 @@ var sys = require('sys'),
 var presentationPath = "presentation.html";
 var presenterPassword = "crc";
 var port = 8080;
-var staticPath = '/modules/Squeenote/public';
+var staticPath = ['/modules/Squeenote/public', '/static'];
 
 // process command line options
 process.argv.forEach(function(val, index, array) {
