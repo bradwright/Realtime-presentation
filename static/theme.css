@@ -1,6 +1,6 @@
 /* Squeenote theme */
 body {
-    font: 13px/1.3 Arial, sans-serif;
+    font: 13px/1.3 'Rokkitt', arial, sans-serif;
     color: #333;
     width: 100%;
     height: 100%;
@@ -8,7 +8,7 @@ body {
 }
 
 h1 {
-    font: 72px 'Rokkitt', arial, serif;
+    font-size: 72px;
     background: #120639;
     border-top: 4px solid #E61610;
     color: #fff;
@@ -49,4 +49,25 @@ body > ol > li.pending {
 body > ol > li.done {
     top: -0;
     left: -129%;
+}
+
+#squeenote_controls {
+    background: #C0C0C0;
+    border: 0;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+
+#squeenote_controls .client_controls,
+#squeenote_controls .presenter_controls {
+    background: #EBEBEB;
+    bottom: 0;
+    margin-bottom: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+}
+
+#squeenote_controls a,
+#squeenote_controls label {
+    color: #000;
 }
