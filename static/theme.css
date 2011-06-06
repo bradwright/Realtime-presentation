@@ -7,11 +7,15 @@ body {
     overflow: hidden;
 }
 
-h1 {
+h1,
+h2 {
     font-size: 72px;
     background: #120639;
     border-top: 4px solid #E61610;
     color: #fff;
+    padding: 5px;
+    font-weight: normal;
+    margin: 0;
 }
 
 body > ol {
