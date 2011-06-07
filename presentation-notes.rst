@@ -264,6 +264,7 @@ __ http://hacks.mozilla.org/2011/05/aurora-6-is-here/
 Server sent events
 ==================
 
+- There are also two other emerging standards for push/live data
 - The other spec is `server sent events`__;
 - Designed to replace foreveriframe and XHR multipart with server push;
 - Not bidirectional like WebSockets - only server to client;
