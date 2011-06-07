@@ -19,6 +19,10 @@ h3 {
     margin: 0;
 }
 
+body > ol > li a {
+    color: #E61601;
+}
+
 h2 + h3 {
     font-size: 48px;
     color: #000;
