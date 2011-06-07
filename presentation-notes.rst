@@ -461,3 +461,12 @@ Questions?
 ==========
 
 Gavin told me to expect questions. Let's have them!
+
+Photo credits
+=============
+
+- `What's HTML 5?`__ by Bruce Lawson
+- `frount of old computer`__
+
+__ http://www.flickr.com/photos/24374884@N08/4603715307/
+__ http://www.flickr.com/photos/tehboris/442351863/
