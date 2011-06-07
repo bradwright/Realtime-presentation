@@ -88,7 +88,8 @@ In all honesty, not all applications really need push updates. Here are a few id
 
   - Google Docs uses real-time push communication to send keystroke and other information to all clients
 
-Smarkets, my employer, uses real-time updates for odds/quantity, sports data, and real-time chat with other fans.
+- Note that a lot of these examples already exist and use real-time events, as shown before in real-world usage
+- Smarkets, my employer, uses real-time updates for odds/quantity, sports data, and real-time chat with other fans.
 
 How does it work?
 =================
@@ -312,7 +313,15 @@ Server architecture
 
 - Real time web goes two ways: server and client side
 - Server side important to fulfil promise of client real time
-- Nginx is an event-loop driven web server - it has a stable and predictable RAM profile under load
+- Nginx is an event-loop driven web server
+
+  - RAM usage under high concurrency is predictable
+
+- You'll probably need a messaging server to deal with passing data around
+
+  - Allows for fire and forget architecture
+  - Soft guarantees for delivery
+  - Allows frontend to not block
 
 Apache and real time
 ====================
@@ -382,6 +391,13 @@ Servers/libraries
 Scaling
 =======
 
+- Smarkets has had a fair share of scaling problems
+
+  - We send over 1000 price updates per minute
+  - We also send a score/time update every 5 seconds for every football match
+  - Users receive all of these, plus account changes and chat updates
+
+- Reduce complexity in server by proessing offline and sending fully formed messages
 - Web server needs to be stateless
 
   - Build up session and state information on the server
@@ -392,11 +408,11 @@ Scaling
   - You can scale out by adding more web servers or more message queues
   - If the data gets more complex you can optimise the daemons or add more
 
-- Reduce complexity in server by proessing offline and sending fully formed messages
 - Let RabbitMQ do its thing and allow it to take the load
 
   - When processing page, dynamically wire up exchanges for relevant content
   - Web server becomes router from message queue to browser
+  - Bind exchanges to each other using native routing of RabbitMQ
 
 Asynchronous programming
 ========================
