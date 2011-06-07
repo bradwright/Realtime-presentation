@@ -192,11 +192,20 @@ Flash sockets
 How to support all these?
 =========================
 
+- The `WebSocket JS library`__ abstracts WebSockets and Flash into a single API
+
+  - It doesn't require a custom server stack, just WebSockets
+
 - Currently, the `socket.io`__ client project is the best way
-- Abstracts all the previously mentioned ridiculous browser hacks into a single event-driven client API
+
+  - Forks to Flash sockets, XHR multipart, forever iFrame, long-polling, etc.
+  - However, it requires a custom server, which we'll get to later
+
+- Both abstract all the previously mentioned ridiculous browser hacks into a single event-driven client API
 - We run it in production, and the client end is fine (we'll get to scaling issues later)
 - It's modelled on WebSockets, which brings us nicely to right now...
 
+__ https://github.com/gimite/web-socket-js
 __ http://socket.io/
 
 WebSockets
