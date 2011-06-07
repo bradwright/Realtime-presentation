@@ -6,11 +6,14 @@ Who am I?
 - Web developer for 10 years, including two years at Yahoo! as a senior developer
 - My background in this specific topic is that we've been doing various forms of real-time odds and sports data for a few years now. This talk is based on all the things I've learned, and also because there doesn't seem to be any definitive resource with this information
 
-Overview
-========
+How we use real-time technology
+===============================
 
-- These are the key points and areas I'll be going over during my talk, just so you're aware of the level I'm aiming at.
-- I'm assuming most people have some experience with Ajax, since I'll be skipping that bit to focus on techniques that can mimic or provide server-pushed events to the browser
+- Smarkets is an online betting exchange
+- We allow users to trade binary futures in sporting and entertainment outcomes
+- We need real-time delivery to guarantee customers have up to date odds
+- We have social elements that require interaction with other customers
+- We also publish live scores and sporting data
 
 A short demo
 ============
@@ -25,19 +28,29 @@ __ http://dibi2011.intranation.com/
 What does "real time web programming" mean?
 ===========================================
 
+- Real time web programming, for the purposes of this talk, is in-browser real-time communication
+- It requires Javascript, and sometimes Flash, to create this connection
+- It usually requires a special server stack
+- This talk is mostly about the ridiculous things you need to make browsers do, with the benefits and caveats of each, and how to implement and scale the server side
+
 Real world web examples
 =======================
 
-Non-web examples
-================
+- Google Talk and (before that, Gmail) were one of the first mainstream examples of real-time applications in the browser. Gmail pioneered the forever-iframe technique in 2006 to deliver quasi-real-time updates on new email
+- Meebo, the in-browser multi-protocol IM client (and apparently check-in service, now), uses long-polling in Chrome to implement instant messaging in the browser
+- IRCCloud, a London-based startup by some ex-Last.fm employees, uses WebSockets to provide a web-based IRC client
+- Facebook chat uses an `Erlang backend and Ajax long-polling`__ to implement browser chat
+- Google finance uses multi-part and forever iframes to send you live stock quotes as you watch graphs
+- Word Squared, an online multi-player scrabble game, `uses websockets and Node.js`__. They push notifications to the browser via my office mates in London `Pusher`__.
 
-Who really needs it?
-====================
+__ http://www.scribd.com/doc/22428456/Erlang-at-Facebook
+__ http://www.startupmonkeys.com/2010/09/building-a-scrabble-mmo-in-48-hours/
+__ http://pusher.com/
 
 Why would I want it?
 ====================
 
-In honesty, not all applications really need push updates. Here are a few ideas I came up with (I accept equity as thanks if any of these turn into successful businesses after this talk):
+In all honesty, not all applications really need push updates. Here are a few ideas I came up with (I accept equity as thanks if any of these turn into successful businesses after this talk):
 
 - Ticketmaster
 
