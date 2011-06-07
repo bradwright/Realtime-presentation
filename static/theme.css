@@ -7,6 +7,20 @@ body {
     overflow: hidden;
 }
 
+body.slide-1 {
+    background: url(img/brad-pose.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+body.slide-1 > ol > li {
+    background: rgba(256, 256, 256, 0.8);
+    height: auto;
+    margin-top: 180px;
+}
+
 h1,
 h2,
 h3 {

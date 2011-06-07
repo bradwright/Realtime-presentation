@@ -28,6 +28,14 @@
     $(document).bind("presentationLoaded.squeenote", function(event, presentation) {
       squeenote.UI = new squeenote.UI(presentation);
     });
+$(document).bind('slideStateChanged.squeenote', function(e, li, state) {
+    if (state == 'current') {
+        var currentHash = window.location.hash.replace('#', '');
+        document.body.className = '';
+        $('body').addClass(currentHash);
+
+    }
+});
   </script>
 
   <!-- Theme files -->
