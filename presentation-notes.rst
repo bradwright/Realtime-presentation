@@ -182,6 +182,23 @@ Multipart responses
 - Only works in Firefox
 - Requires a special server
 
+Flash sockets
+=============
+
+- It's an actual socket, so bi-directional and efficient
+- Obviously, requires both Flash and Javascript, and to bridge them
+- Your server needs to set a Flash policy/cross domain file before Flash will have permission to run
+
+How to support all these?
+=========================
+
+- Currently, the `socket.io`__ client project is the best way
+- Abstracts all the previously mentioned ridiculous browser hacks into a single event-driven client API
+- We run it in production, and the client end is fine (we'll get to scaling issues later)
+- It's modelled on WebSockets, which brings us nicely to right now...
+
+__ http://socket.io/
+
 WebSockets
 ==========
 
