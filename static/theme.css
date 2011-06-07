@@ -110,7 +110,8 @@ body > ol > li h4 {
 }
 
 #squeenote_controls .client_controls,
-#squeenote_controls .presenter_controls {
+#squeenote_controls .presenter_controls,
+#squeenote_controls .slide_counter {
     background: #EBEBEB;
     bottom: 0;
     margin-bottom: 0;
@@ -119,6 +120,7 @@ body > ol > li h4 {
 }
 
 #squeenote_controls a,
-#squeenote_controls label {
+#squeenote_controls label,
+#squeenote_controls .slide_counter {
     color: #000;
 }
