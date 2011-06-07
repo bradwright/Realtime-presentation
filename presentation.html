@@ -42,7 +42,7 @@
     </head>
     <body>
         <ol>
-            <li>
+            <li class="lead">
                 <h1>Programming the real time web</h1>
                 <h2>by <a href="http://intranation.com/">Bradley Wright</a></h2>
             </li>
@@ -53,17 +53,6 @@
                     <li>Former lead front-end developer at Yahoo! Answers</li>
                     <li>Head of Web Development at <a href="http://smarkets.com">Smarkets</a></li>
                     <li><a href="http://twitter.com/intranation">@intranation</a></li>
-                </ul>
-            </li>
-            <li>
-                <h2>Overview</h2>
-                <ul>
-                    <li>What does real time web programming mean?</li>
-                    <li>Why would I need or want it for my site?</li>
-                    <li>How does it work, including cross browser techniques?</li>
-                    <li>Server architecture, including scaling</li>
-                    <li>What's "asynchronous programming"?</li>
-                    <li>How can this be made accessible?</li>
                 </ul>
             </li>
             <li>
@@ -284,14 +273,14 @@ data: has two lines.</pre>
                 </ul>
             </li>
             <li>
-                <h3>An example of this from the future of Smarkets</h3>
+                <h3>An example of this from Smarkets</h3>
                 <ul>
                     <li>User experience and performance key</li>
                     <li>Mask asynchronous nature of API</li>
                 </ul>
             </li>
             <li>
-                <h3>Popular servers/libraries capable of this</h3>
+                <h3>Popular servers/libraries</h3>
                 <ul>
                     <li><a href="http://camel.apache.org/cometd.html">Apache cometd</a></li>
                     <li><a href="http://www.tornadoweb.org/">Tornado</a></li>
@@ -326,9 +315,13 @@ data: has two lines.</pre>
             </li>
             <li>
                 <h2>Asynchronous programming</h2>
+                <p>A dumb example of a node-based asynchronous server.</p>
                 <pre>function handleRequest(request) {
-request.amqp.onmessage=function(msg) {};
-return;
+    request.amqp.onmessage = function(msg) {
+        // this will return to the browser when it's ready
+        request.send('Some content here');
+    };
+    return;
 }</pre>
             </li>
             <li>

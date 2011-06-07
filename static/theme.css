@@ -8,14 +8,28 @@ body {
 }
 
 h1,
-h2 {
+h2,
+h3 {
     font-size: 72px;
     background: #120639;
     border-top: 4px solid #E61610;
     color: #fff;
-    padding: 5px;
+    padding: 5px 15px;
     font-weight: normal;
     margin: 0;
+}
+
+h2 + h3 {
+    font-size: 48px;
+    color: #000;
+    margin-bottom: 10px;
+    background: none;
+    border: none;
+}
+
+body > ol > li > h2,
+body > ol > li > h3 {
+    margin-bottom: 10px;
 }
 
 body > ol {
@@ -33,6 +47,7 @@ body > ol > li {
     margin: 0;
     padding: 0;
     list-style: none;
+    font-size: 36px;
 
   /* Webkit-specific transformations */
   -webkit-transition-property: border, left, right, opacity, display;
@@ -53,6 +68,38 @@ body > ol > li.pending {
 body > ol > li.done {
     top: -0;
     left: -129%;
+}
+
+body > ol > li.lead {
+    text-align: center;
+}
+
+body > ol > li.lead h1,
+body > ol > li.lead h2 {
+    margin: 0 auto;
+    display: inline-block;
+    text-align: center;
+}
+
+body > ol > li.lead h2 {
+    margin-top: 10px;
+    background: #EBEBEB;
+    border-color: #C0C0C0;
+    font-size: 36px;
+    color: #000;
+}
+
+body > ol > li pre {
+    background: #EBEBEB;
+    border: 4px solid #C0C0C0;
+    border-width: 4px 0;
+    font-size: 24px;
+    padding: 8px;
+}
+
+body > ol > li p,
+body > ol > li h4 {
+    margin: 0 0 12px 0;
 }
 
 #squeenote_controls {
