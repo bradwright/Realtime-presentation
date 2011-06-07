@@ -31,6 +31,7 @@ What does "real time web programming" mean?
 - Real time web programming, for the purposes of this talk, is in-browser real-time communication
 - It requires Javascript, and sometimes Flash, to create this connection
 - It usually requires a special server stack
+- If you're already familiar with writing callbacks for Ajax applications, you know most of the programming techniques required, with a few caveats that will be explained
 - This talk is mostly about the ridiculous things you need to make browsers do, with the benefits and caveats of each, and how to implement and scale the server side
 
 Real world web examples
@@ -92,7 +93,6 @@ Smarkets, my employer, uses real-time updates for odds/quantity, sports data, an
 How does it work?
 =================
 
-- This part of the talk is broken down into 3 sections:
 - The old way:
 
   - Some of these techniques are as old as Ajax itself, so circa
@@ -105,9 +105,16 @@ How does it work?
   - Spoiler: it's WebSockets
   - There's another standard similar to long polling: Server Sent Events
 
-- The elephant in the room:
+- I'm also going to talk about accessibility, and how to built a complete and useful experience for all potential customers
+- How to build and scale out a real-time web application
 
-  - There's a well-known security issue with the interaction between WebSockets and transparent proxies, which we'll talk about
+What's the real problem
+=======================
+
+- HTTP, the protocol of the web, isn't really designed for real-time communication
+- It's stateless, so servers, by design, don't need to know or care who you are (which makes stateful or authenticated communication difficult)
+- HTTP is uni-directional - request/response
+- The overhead of creating and breaking down HTTP requests in both the client and server is inefficient and heavy, and adds latency to any communication. This is usually fine when you're asking for one page, but when you're streaming chat updates to the browser it all adds up.
 
 Polling
 =======
@@ -120,6 +127,7 @@ Polling
   - Makes the server and client do work for potentially no reason - Data might not have changed between polls
 
 - If you must do long polling (legacy server architecture, shared hosting), Best practice is to use ``If-Modified-Since`` on the client and return 304 responses to cut down on browser/network payload
+- If possiblr batch messages between fetches so lots of updates are sent at once
 
 Long-polling
 ============
@@ -137,14 +145,6 @@ Long-polling
 
 - Best practice is to batch data for a short time so that you maximise efficiency in the connection window (which requires a bit of a dirty server side logic fork)
 - Use keep-alive to play nicely with servers and proxies;
-
-Comet
-=====
-
-- Comet is more formally known as "The Bayeux protocol"
-- Combination of long-polling and JSONP polling on the server - code has already been written for you
-- Added handshake for some client/server verification
-- Slightly complex, requires a custom Java server (and thus lots of XML)
 
 Dynamic script elements
 =======================
@@ -173,6 +173,14 @@ Forever iframe
 - Google Talk team discovered this, `according to Dojo's Alex Russell`__
 
 __ http://infrequently.org/2006/02/what-else-is-burried-down-in-the-depths-of-googles-amazing-javascript/
+
+Multipart responses
+===================
+
+- Like email with plain-text and rich-text parts
+- Designed as an HTTP-compliant way to stream updates to browsers
+- Only works in Firefox
+- Requires a special server
 
 WebSockets
 ==========
@@ -252,6 +260,26 @@ WebRTC
 
 __ https://sites.google.com/site/webrtc/
 
+Accessibility
+=============
+
+I have included a few points on accessibility as a way of closing the loop - when I started in web development it was all about "doing it the right way". We're now in a world where it's considered cool to have tech demos which only run in Chrome, or to have entire website and URL structures based on just Javascript (hi Twitter!). As I still believe in doing things the right way, all potential users have to be considered.
+
+Also, as we're now moving into an age where user experience is at the forefront of designers' and developers' minds, it's important to remember that experience should be optimised for every user possible.
+
+- This is still a nascent part of the stack
+- `ARIA live regions`__ can be used to specify how frequently, and how urgent, types of update are. It also controls if they need to know about the whole area, or specific parts;
+
+  - ``aria-live`` attribute defines "polite" or "urgent" modes, which determine how insistent or quiet content updates are. The order these updates are read out is also determined by the value of this attribute. For example, updates to a public chatroom could be "polite", whereas private messages would be "urgent".
+  - Updates sent to accessibility layers can be disabled while content loads with ``aria-busy``. Use this to block updates to a pane until all messages are processed and loaded. Note this can also be used for "loading" icons etc. while forms are being sent to the server;
+  - ``aria-relevant`` can be used to indicate whether new child elements are important or not, and whether changes to text within the region are important
+
+- ARIA roles are also important: a role of ``alert`` when they receive a new message or similar is appropriate, as this indicates that something has happened the user needs to know about. ``alertdialog`` can be used if the user needs to focus on the dialogue in question and action it (for example: a failed modal login dialogue)
+- Be careful updating forms in-page because they can cause reloads in certain screenreaders
+- Can be helpful to have an off-page area which has commentary - an example: "The price for Google has moved 5% downwards in the last 2 hours". This would normally be clearly indicated by the graph, but there's currently no easy way of updating either ``longdesc`` or providing ``alt`` attribute text for complex interaction;
+
+__ http://www.w3.org/WAI/PF/aria-practices/#LiveRegions
+
 Server architecture
 ===================
 
@@ -312,19 +340,17 @@ An example from Smarkets
 
 - User never notices that it's asynchronous - to them it seems synchronous, which doesn't break their mental model of fill form, submit, response
 
-
 Servers/libraries
 =================
 
 - Cometd implements the Bayeux protocol, and works with Jetty (Java);
+
+  - Comet is a combination of long-polling and JSONP, and implements a handshake as part of the Bayeux protocol
+
 - Tornado is the non-blocking Python web server used by Friendfeed. It impements non-blocking IO using callbacks. It has a socket.io implementation called Tornadio
 - Eventlet is Linden Labs's (of Second Life fame) non-blocking evented Python framework. It uses a coroutine style. It has a WebSockets module for serving WebSockets;
 - Twisted is a very complex networking and event library written in Python. I don't really understand it;
-
-Message queues
-==============
-
-- TODO
+- node.js is the open source server-side Javascript HTTP server, built on Google's V8 project
 
 Scaling
 =======
@@ -369,26 +395,6 @@ At this point you might be terrified of all the details, but you have a few easy
 
 __ http://socket.io/
 __ http://pusher.com/
-
-Accessibility
-=============
-
-I have included a few points on accessibility as a way of closing the loop - when I started in web development it was all about "doing it the right way". We're now in a world where it's considered cool to have tech demos which only run in Chrome, or to have entire website and URL structures based on just Javascript (hi Twitter!). As I still believe in doing things the right way, all potential users have to be considered.
-
-Also, as we're now moving into an age where user experience is at the forefront of designers' and developers' minds, it's important to remember that experience should be optimised for every user possible.
-
-- This is still a nascent part of the stack
-- `ARIA live regions`__ can be used to specify how frequently, and how urgent, types of update are. It also controls if they need to know about the whole area, or specific parts;
-
-  - ``aria-live`` attribute defines "polite" or "urgent" modes, which determine how insistent or quiet content updates are. The order these updates are read out is also determined by the value of this attribute. For example, updates to a public chatroom could be "polite", whereas private messages would be "urgent".
-  - Updates sent to accessibility layers can be disabled while content loads with ``aria-busy``. Use this to block updates to a pane until all messages are processed and loaded. Note this can also be used for "loading" icons etc. while forms are being sent to the server;
-  - ``aria-relevant`` can be used to indicate whether new child elements are important or not, and whether changes to text within the region are important
-
-- ARIA roles are also important: a role of ``alert`` when they receive a new message or similar is appropriate, as this indicates that something has happened the user needs to know about. ``alertdialog`` can be used if the user needs to focus on the dialogue in question and action it (for example: a failed modal login dialogue)
-- Be careful updating forms in-page because they can cause reloads in certain screenreaders
-- Can be helpful to have an off-page area which has commentary - an example: "The price for Google has moved 5% downwards in the last 2 hours". This would normally be clearly indicated by the graph, but there's currently no easy way of updating either ``longdesc`` or providing ``alt`` attribute text for complex interaction;
-
-__ http://www.w3.org/WAI/PF/aria-practices/#LiveRegions
 
 To summarise
 ============

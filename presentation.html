@@ -61,6 +61,13 @@
                     <li>Real-time odds</li>
                     <li>Real-time sports scores</li>
                     <li>Chat</li>
+                    <li>Built on:<ul>
+                        <li>RESTful Erlang API</li>
+                        <li>Tornado web server</li>
+                        <li>RabbitMQ</li>
+                        <li>Django/Python frontend</li>
+                        <li>socket.io client library</li>
+                    </ul></li>
                 </ul>
             </li>
             <li>
@@ -103,30 +110,52 @@
             <li>
                 <h2>How does it work?</h2>
                 <ul>
-                    <li>The old way - with a caution about The Future™</li>
-                    <li>The current standard - and how it's changing</li>
-                    <li>The elephant in the room</li>
+                    <li>The old way - browser hacks</li>
+                    <li>The current standard(s)</li>
+                    <li>Accessibility issues</li>
+                    <li>Server side technology</li>
                 </ul>
             </li>
             <li>
-                <h3>What's the real problem?</h3>
+                <h2>What's the real problem?</h2>
                 <ul>
                     <li>HTTP is stateless</li>
                     <li>No bi-directional communication</li>
                     <li>HTTP is relatively inefficient</li>
                 </ul>
             </li>
-            <li>
-                <h3>The old way</h3>
-                <h4>Polling</h4>
-                <pre>window.setTimeout(function(){$.ajax();}, 2000);</pre>
+            <li class="lead">
+                <h1>The old way</h1><br>
+                <h2>Beware browser hacks</h2>
             </li>
             <li>
-                <h3>The old way</h3>
-                <h4>Long Polling</h4>
+                <h2>Ajax Polling</h2>
+                <pre>window.setTimeout(function(){
+    $.get('/updates').success(myCallback);
+}, 2000);</pre>
+                <ul><li>Works in any browser</li>
+                <li>Doesn't require special servers</li></ul>
+            </li>
+            <li>
+                <h2>Ajax polling issues</h2>
+                <ul>
+                    <li>Incredibly inefficient</li>
+                    <li>Will make a request even when no data is available</li>
+                    <li>Not actually real-time</li>
+                </ul>
+            </li>
+            <li>
+                <h2>Ajax polling improvements</h2>
+                <ul>
+                    <li>Use HTTP headers to advantage</li>
+                    <li>Maintain server state</li>
+                </ul>
+            </li>
+            <li>
+                <h2>Long Polling</h2>
                 <ul>
                     <li><strong>Important!</strong> don't do this on a regular Apache server!</li>
-                    <li><strong>Long-polling</strong> - Ajax request that waits for server to close connection:
+                    <li>Ajax request that waits for server to close connection:
                         <pre>&lt;?php
     // fake waiting for data
     sleep(rand(2,10));
@@ -134,21 +163,34 @@
     header('Content-type: application/json');
     echo '{"data":"here","key":"value"}';
 ?&gt;</pre></li>
+                    <li>Less overhead than regular polling</li>
                 </ul>
             </li>
             <li>
-                <h3>The old way</h3>
-                <h4>Comet</h4>
+                <h2>Long polling issues</h2>
                 <ul>
-                    <li>Otherwise known as the <a href="http://svn.cometd.com/trunk/bayeux/bayeux.html">Bayeux protocol</a></li>
-
-                    <li>Long polling with handshake and response verification attached</li>
-                    <li>Cross-domain using "callback polling" (JSONP)</li>
+                    <li>Requires special server</li>
+                    <li>Still inefficient</li>
+                    <li>HTTP headers can't improve performance</li>
                 </ul>
             </li>
             <li>
-                <h3>The old way</h3>
-                <h4>Dynamic script elements</h4>
+                <h2>Long polling improvements</h2>
+                <ul>
+                    <li>Batch updates on server</li>
+                    <li>Use <code>keep-alive</code> headers for proxies</li>
+                </ul>
+            </li>
+            <li>
+                <h2>JSONP polling</h2>
+                <ul>
+                    <li>Like long polling but returns JSONP:
+<pre>clientFunction({"data":"here"});</pre></li>
+                    <li>Gives quasi-evented interaction</li>
+                </ul>
+            </li>
+            <li>
+                <h2>Dynamic script elements</h2>
                 <ul>
                     <li>Just like JSONP polling but using a <code>script</code> element appended to <code>head</code></li>
                     <li>Cross-domain</li>
@@ -156,31 +198,60 @@
                 </ul>
             </li>
             <li>
-                <h3>The old way</h3>
-                <h4>Multipart responses</h4>
+                <h2>Dynamic script issues</h2>
                 <ul>
-                    <li>Really only supported in Firefox</li>
-                    <li>Just like email with text and HTML parts</li>
-                    <li>Doesn't require a connection to be closed</li>
+                    <li>Lacks timeout support</li>
+                    <li>Some browsers have max. scripts</li>
+                    <li>Don't always know when loaded</li>
                 </ul>
             </li>
             <li>
-                <h3>The old way</h3>
-                <h4>Forever iframes</h4>
+                <h2>Dynamic script improvements</h2>
+                <ul>
+                    <li>Return in 60 seconds</li>
+                    <li>Remove old scripts</li>
+                    <li>Sequence events</li>
+                    <li>Use JSONP to fire client events</li>
+                </ul>
+            </li>
+            <li>
+                <h2>Forever iframes</h2>
                 <ul>
                     <li>First surfaced around 2006 in Google Talk</li>
                     <li>An <code>iframe</code> served via <code>keep-alive</code> and chunked encoding</li>
                     <li>Each chunk spits out a dynamic <code>script</code> element</li>
-                    <li>Browser always appears to be loading (spinning) in IE, unless you use a hack</li>
                 </ul>
             </li>
             <li>
-                <h2>The current way</h2>
+                <h2>Forever iframe issues</h2>
+                <ul>
+                    <li>Browser always appears to be loading (spinning)</li>
+                    <li>It's an <code>iframe</code></li>
+                </ul>
+            </li>
+            <li>
+                <h2>Forever iframe improvements</h2>
+                <ul>
+                    <li>Use <code>htmlfile</code> <code>ActiveX</code> control to mitigate loading issues in IE</li>
+                </ul>
+            </li>
+            <li>
+                <h2>Multipart responses</h2>
+                <ul>
+                    <li>Really only supported in Firefox</li>
+                    <li>Just like email with text and HTML parts:
+<pre>{"data":"here"}</li>
+                    <li>Doesn't require a connection to be closed</li>
+                </ul>
+            </li>
+            <li class="lead">
+                <h1>The current way</h1><br>
+                <h2>Emerging standards</h2>
             </li>
             <li>
                 <h2>WebSockets</h2>
                 <pre>GET /demo HTTP/1.1
-Upgrade: WebSocket
+<strong>Upgrade: WebSocket</strong>
 Connection: Upgrade
 Host: example.com
 Origin: http://example.com
@@ -194,7 +265,7 @@ Sec-WebSocket-Key2: 12998 5 Y3 1  .P00
                 <h2>WebSockets</h2>
                 <ul>
                     <li>Currently in working spec</li>
-                    <li>Works in Chrome, Safari, and iOS Safari</li>
+                    <li>Works in Chrome, Safari, and Mobile Safari</li>
                     <li>Bi-directional socket communication with server</li>
                     <li>Not HTTP, even though it looks like HTTP</li>
                 </ul>
@@ -235,38 +306,95 @@ data: has two lines.</pre>
                     <li>Integrates with existing protocols like XMPP</li>
                 </ul>
             </li>
+            <li class="lead">
+                <h1>Accessibility</h1>
+            </li>
+            <li>
+                <h2>User experience</h2>
+                <ul>
+                    <li>Doing it right</li>
+                    <li>Still a nascent part of the toolbox</li>
+                    <li>WAI-ARIA provides tools</li>
+                </ul>
+            </li>
+            <li>
+                <h2>aria-live</h2>
+                <ul>
+                    <li>Use ARIA live regions to control update speed:
+<pre>&lt;div aria-live="polite" /&gt;</pre></li>
+                    <li>Use <code>urgent</code> to notify immediately</li>
+                    <li>Use <code>polite</code> for things that don't require attention</li>
+                </ul>
+            </li>
+            <li>
+                <h2>aria-busy</h2>
+                <ul>
+                    <li><code>aria-busy</code> is boolean</li>
+                    <li>Notifies blocking interactions</li>
+                </ul>
+            </li>
+            <li>
+                <h2>aria-relevant</h2>
+                <ul>
+                    <li>Lets assistive technology know what to listen for</li>
+                    <li>Just additions? Text changes?</li>
+                    <li><pre>&lt;div aria-relevant="additions removals text all"&gt;</li>
+                </ul>
+            </li>
+            <li>
+                <h2>aria-role</h2>
+                <ul>
+                    <li>Use ARIA roles to define what each updated pane should act as<pre>&lt;div id="alert_box" role="alert"&gt;</pre></li>
+                    <li>Be careful with altering forms</li>
+                </ul>
+            </li>
+            <li class="lead">
+                <h1>Server side</h1>
+            </li>
             <li>
                 <h2>Server architecture</h2>
                 <ul>
                     <li>The real time web is more than just the Javascript</li>
                     <li>Server side is as important as client side</li>
                     <li>Nginx is an example of an evented server</li>
-                    <li>Luckily, no hacks involved!</li>
                 </ul>
             </li>
             <li>
-                <h2>Server architecture</h2>
-                <h3>Why long polling and Apache don't mix</h3>
+                <h2>Long polling and Apache</h2>
                 <ul>
                     <li>Pre-forked/worker, and blocking</li>
                     <li>PHP has a <code>select</code> function, but no one uses it</li>
-                    <li>Popular frameworks are blocking too</li>
+                    <li>Popular frameworks are blocking too!</li>
                 </ul>
             </li>
             <li>
-                <h2>Server architecture</h2>
-                <h3>Non-blocking servers</h3>
+                <h2>Non-blocking servers</h2>
                 <ul>
                     <li>High concurrency</li>
+                    <li>Event-loop driven</li>
                     <li>Difficult (different?) programming model</li>
                     <li>Not a magic bullet</li>
                 </ul>
             </li>
             <li>
-                <h3>An example of this from Smarkets</h3>
+                <h2>Asynchronous programming</h2>
+                <p>A dumb example of a node-based asynchronous server:</p>
+                <pre>function handleRequest(request) {
+    request.amqp.onmessage = function(msg) {
+        // this will return to the browser when it's ready
+        request.send('Some content here');
+    };
+    // at this point the server is free to handle another
+    // request while the above takes its time
+    return;
+}</pre>
+            </li>
+            <li>
+                <h2>An example of this from Smarkets</h2>
                 <ul>
                     <li>User experience and performance key</li>
                     <li>Mask asynchronous nature of API</li>
+                    <li>Sequenced so messages aren't missed</li>
                 </ul>
             </li>
             <li>
@@ -275,19 +403,8 @@ data: has two lines.</pre>
                     <li><a href="http://camel.apache.org/cometd.html">Apache cometd</a></li>
                     <li><a href="http://www.tornadoweb.org/">Tornado</a></li>
                     <li><a href="http://www.eventlet.net/">eventlet</a> (<a href="http://eventlet.net/doc/modules/websocket.html">websocket extension</a>)</li>
-                    <li><a href="http://twistedmatrix.com/trac/">Twisted</a></li>
                     <li><a href="http://rubyeventmachine.com/">EventMachine</a></li>
                     <li><a href="http://nodejs.org/">node.js</a></li>
-                </ul>
-            </li>
-            <li>
-                <h2>Server architecture</h2>
-                <h3>Message/work queues</h3>
-                <ul>
-                    <li>Fire and forget architecture</li>
-                    <li>Eventual delivery</li>
-                    <li>Can deliver to multiple listeners</li>
-                    <li>AMQP/Rabbit has clients for most major languages</li>
                 </ul>
             </li>
             <li>
@@ -304,31 +421,11 @@ data: has two lines.</pre>
                 </ul>
             </li>
             <li>
-                <h2>Asynchronous programming</h2>
-                <p>A dumb example of a node-based asynchronous server.</p>
-                <pre>function handleRequest(request) {
-    request.amqp.onmessage = function(msg) {
-        // this will return to the browser when it's ready
-        request.send('Some content here');
-    };
-    return;
-}</pre>
-            </li>
-            <li>
                 <h2>What can I use off the shelf?</h2>
                 <ul>
                     <li>node.js with <a href="http://socket.io/">socket.io</a></li>
                     <li>Commercial service like <a href="http://pusher.com/">Pusher</a></li>
                     <li>Failing either of the above, you can just implement polling.</li>
-                </ul>
-            </li>
-            <li>
-                <h2>Accessibility</h2>
-                <ul>
-                    <li>A worthy part of any discussion about front end tech</li>
-                    <li>Use ARIA live regions to control update speed</li>
-                    <li>Use ARIA roles to define what each updated pane should act as</li>
-                    <li>Be careful with altering forms</li>
                 </ul>
             </li>
             <li>
