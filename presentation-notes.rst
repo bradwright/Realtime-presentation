@@ -355,20 +355,21 @@ Servers/libraries
 Scaling
 =======
 
-- Offload complex processing to daemons
 - Web server needs to be stateless
 
   - Build up session and state information on the server
-  - Pass dynamic exchange bindings to web server
-  - Web server just routes messages to client
+  - Scanning queues for authenticated or relevant connections is expensive
 
 - Use message queues to pass data around so nothing blocks
 
   - You can scale out by adding more web servers or more message queues
   - If the data gets more complex you can optimise the daemons or add more
 
+- Reduce complexity in server by proessing offline and sending fully formed messages
 - Let RabbitMQ do its thing and allow it to take the load
-- High CPU is fine (that's what it's there for), as long as it's not pegged
+
+  - When processing page, dynamically wire up exchanges for relevant content
+  - Web server becomes router from message queue to browser
 
 Asynchronous programming
 ========================
