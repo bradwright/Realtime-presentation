@@ -1,3 +1,4 @@
+/*jslint white: true */
 // Node.js server file for DIBI real-time
 
 var sys = require('sys'),
