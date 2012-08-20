@@ -13,9 +13,10 @@ var staticPath = ['/modules/Squeenote/public', '/static'];
 
 // process command line options
 process.argv.forEach(function(val, index, array) {
+    "use strict";
     switch (index) {
         case 2:
-            if (val == 'help' || val == '?') {
+            if (val === 'help' || val === '?') {
                 console.log('Usage: node presentation.js [file] [password] [port]');
                 process.exit();
             }
